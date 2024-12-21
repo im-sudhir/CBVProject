@@ -4,9 +4,24 @@ from rest_framework.response import Response
 from .models import CourseModel
 from .serializers import CourseSerializer
 from rest_framework import status
+from rest_framework import mixins,generics
 # Create your views here.
 
-class CourseListView(APIView):
+class CourseListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset=CourseModel.objects.all()
+    serializer_class=CourseSerializer
+    def get(self,request):
+        return self.list(request)
+    
+    def post(self,request):
+        return self.create(request)
+
+class CourseDetailView(generics.GenericAPIView):
+    pass
+
+
+
+'''class CourseListView(APIView):
     def get(self, request):
         courses=CourseModel.objects.all()
         serializer=CourseSerializer(courses,many=True)
@@ -51,4 +66,5 @@ class CourseDetailView(APIView):
             course.delete()
             return Response({"message": "Course deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except CourseModel.DoesNotExist:
-            return Response({"error": "Course not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Course not found"}, status=status.HTTP_404_NOT_FOUND)'''
+
