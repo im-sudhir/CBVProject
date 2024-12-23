@@ -7,16 +7,25 @@ from rest_framework import status
 from rest_framework import mixins,generics
 # Create your views here.
 
-class CourseListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+'''class CourseListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset=CourseModel.objects.all()
     serializer_class=CourseSerializer
     def get(self,request):
         return self.list(request)
     
     def post(self,request):
-        return self.create(request)
+        return self.create(request)'''
 
-class CourseDetailView(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin):
+class CourseListView(generics.ListCreateAPIView):
+    serializer_class=CourseSerializer
+    queryset=CourseModel.objects.all()
+
+
+class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class=CourseSerializer
+    queryset=CourseModel.objects.all()
+
+'''class CourseDetailView(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin):
     queryset=CourseModel.objects.all()
     serializer_class=CourseSerializer
     def get(self,request,pk):
@@ -26,9 +35,7 @@ class CourseDetailView(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.
         return self.update(request,pk)
 
     def delete(self,request,pk):
-        return self.destroy(request,pk)
-
-
+        return self.destroy(request,pk)'''
 
 
 
