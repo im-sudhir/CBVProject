@@ -5,11 +5,19 @@ from .models import CourseModel
 from .serializers import CourseSerializer
 from rest_framework import status
 from rest_framework import mixins,generics
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ViewSet,ModelViewSet
 from django.shortcuts import get_object_or_404
 # Create your views here.
 
-class CourseViewSet(ViewSet):
+
+#NOTE: Used ModelViewSet for CRUD Operations.
+class CourseViewSet(ModelViewSet):
+    queryset=CourseModel.objects.all()
+    serializer_class=CourseSerializer
+
+
+#NOTE:User Viewset for CRUD operations
+'''class CourseViewSet(ViewSet):
     def list(self,request):
         courses=CourseModel.objects.all()
         serializer=CourseSerializer(courses, many=True)
@@ -35,9 +43,10 @@ class CourseViewSet(ViewSet):
         queryset=CourseModel.objects.all()
         course= get_object_or_404(queryset,pk=pk)
         course.delete()
-        return Response("{'messge':'object is deleted.'}", status=status.HTTP_200_OK)
+        return Response("{'messge':'object is deleted.'}", status=status.HTTP_200_OK)'''
 
 
+#NOTE:Used Mixins and GenericAPIView for CRUD operations
 '''class CourseListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset=CourseModel.objects.all()
     serializer_class=CourseSerializer
@@ -47,6 +56,8 @@ class CourseViewSet(ViewSet):
     def post(self,request):
         return self.create(request)'''
 
+
+#NOTE: Used generics ListCreateView and RetrieveUpdateDestroyAPIView for CRUD Opeations.
 '''class CourseListView(generics.ListCreateAPIView):
     serializer_class=CourseSerializer
     queryset=CourseModel.objects.all()
@@ -56,6 +67,7 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=CourseSerializer
     queryset=CourseModel.objects.all()
 '''
+
 '''class CourseDetailView(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin):
     queryset=CourseModel.objects.all()
     serializer_class=CourseSerializer
@@ -69,7 +81,7 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
         return self.destroy(request,pk)'''
 
 
-
+#NOTE:Used Standard APIView class for CRUD operations.
 '''class CourseListView(APIView):
     def get(self, request):
         courses=CourseModel.objects.all()
